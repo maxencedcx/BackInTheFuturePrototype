@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ResourcesManager : MonoBehaviour
 {
     public GameObject playerPrefab;
     public GameObject enemyPrefab;
+    public GameObject bulletPrefab;
 
     public static ResourcesManager instance;
     private Dictionary<string, GameObject> objects;
@@ -21,6 +21,7 @@ public class ResourcesManager : MonoBehaviour
         objects = new Dictionary<string, GameObject>();
         objects.Add("playerPrefab", playerPrefab);
         objects.Add("enemyPrefab", enemyPrefab);
+        objects.Add("bulletPrefab", bulletPrefab);
     }
 
     public void Add(string name, GameObject obj)
