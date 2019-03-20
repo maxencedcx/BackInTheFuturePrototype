@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public Dictionary<int, GameObject> objectsToBeRewind;
+    public Dictionary<int, infosHandler> objectsToBeRewind;
     public Dictionary<int, ObjectInfo> objectsInfos; 
     public GameObject player;
 
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             Destroy(instance);
         else
             DontDestroyOnLoad(gameObject);
-        objectsToBeRewind = new Dictionary<int, GameObject>();
+        objectsToBeRewind = new Dictionary<int, infosHandler>();
         objectsInfos = new Dictionary<int, ObjectInfo>();
     }
 
@@ -30,41 +30,34 @@ public class GameManager : MonoBehaviour
         if (lastUpdate + cooldown <= Time.time)
         {
             lastUpdate = Time.time;
-            foreach (KeyValuePair<int, GameObject> obj in objectsToBeRewind)
-            {
-                if (!objectsInfos.ContainsKey(obj.Key))
-                    objectsInfos.Add(obj.Key, new ObjectInfo(obj.Value.transform.position, obj.Value.transform.rotation));
-                else if (objectsInfos[obj.Key].lastUpdated + refreshRate <= Time.time)
-                {
-                    objectsInfos[obj.Key].rotation = obj.Value.transform.rotation;
-                    objectsInfos[obj.Key].position = obj.Value.transform.position;
-                    objectsInfos[obj.Key].lastUpdated = Time.time;
-                }
-            }
-;        }
+            updateAllInfos();
+        }
+    }
+
+    public void updateAllInfos()
+    {
+        foreach (KeyValuePair<int, infosHandler> obj in objectsToBeRewind)
+        {
+            if (!objectsInfos.ContainsKey(obj.Key))
+                objectsInfos.Add(obj.Key, obj.Value());
+            else if (objectsInfos[obj.Key].lastUpdated + refreshRate <= Time.time)
+                objectsInfos[obj.Key] = obj.Value();
+        }
     }
 
     public void rewind()
     {
         foreach (KeyValuePair<int, ObjectInfo> obj in objectsInfos)
-        {
-            objectsToBeRewind[obj.Key].transform.position = obj.Value.position;
-            objectsToBeRewind[obj.Key].transform.rotation = obj.Value.rotation;
-        }
+            objectsToBeRewind[obj.Key](obj.Value);
         objectsInfos.Clear();
-        foreach (KeyValuePair<int, GameObject> obj in objectsToBeRewind)
-        {
-            if (!objectsInfos.ContainsKey(obj.Key))
-                objectsInfos.Add(obj.Key, new ObjectInfo(obj.Value.transform.position, obj.Value.transform.rotation));
-            else if (objectsInfos[obj.Key].lastUpdated + refreshRate <= Time.time)
-            {
-                objectsInfos[obj.Key].rotation = obj.Value.transform.rotation;
-                objectsInfos[obj.Key].position = obj.Value.transform.position;
-                objectsInfos[obj.Key].lastUpdated = Time.time;
-            }
-        }
+        updateAllInfos();
     }
 
     public Vector3 getPlayerPos()
-    { return player.transform.position; }
+    {
+        if (player != null)
+            return player.transform.position;
+        else
+            return Vector3.zero;
+    }
 }

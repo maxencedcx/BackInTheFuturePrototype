@@ -3,9 +3,11 @@
 public class Player : Damageable
 {
     [SerializeField] private float shootingSpeed;
-    void Start()
+
+    private void Start()
     {
-        GameManager.instance.objectsToBeRewind.Add(1, gameObject);
+        type = ObjectInfo.Type.PLAYER;
+        register();
     }
 
     void Update()
@@ -14,7 +16,13 @@ public class Player : Damageable
         Shoot();
     }
 
-    private void Move() {
+    private void OnDestroy()
+    {
+        GameManager.instance.player = null;
+    }
+
+    private void Move()
+    {
         Vector3 move = Vector3.zero;
 
         move.x = Input.GetAxis("Horizontal") * Time.deltaTime * 8;
@@ -26,8 +34,10 @@ public class Player : Damageable
         gameObject.transform.Translate(move);
     }
 
-    private void Shoot() {
-        if (Input.GetKeyDown(KeyCode.Mouse0)) {
+    private void Shoot()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
             Vector3 vector = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
             vector.z = vector.y;
             vector.y = 0;

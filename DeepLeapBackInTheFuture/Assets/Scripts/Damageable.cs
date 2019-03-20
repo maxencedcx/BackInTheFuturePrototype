@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public abstract class Damageable : MonoBehaviour {
+public abstract class Damageable : ObjectToRewind
+{
     [SerializeField] private int maxHealth;
 
     private int _health;

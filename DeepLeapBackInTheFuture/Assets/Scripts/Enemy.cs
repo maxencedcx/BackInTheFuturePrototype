@@ -10,7 +10,8 @@ public class Enemy : Damageable
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        GameManager.instance.objectsToBeRewind.Add(2, gameObject);
+        type = ObjectInfo.Type.ENEMY;
+        register();
     }
 
     private void Update()
@@ -18,11 +19,9 @@ public class Enemy : Damageable
         agent.SetDestination(GameManager.instance.getPlayerPos());
     }
 
-    private void OnCollisionEnter(Collision collision) {
-        Debug.Log("aaaa");
-        if (collision.gameObject.CompareTag("Player")) {
-            Debug.Log("bbbb");
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
             collision.gameObject.GetComponent<Damageable>().GetDamage(damage);
-        }
     }
 }
