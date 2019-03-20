@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public GameObject player;
 
     protected float lastUpdate = 0;
-    protected float cooldown = 0.25f;
+    protected float cooldown = 0.1f;
     protected float refreshRate = 2;
 
     void Awake()
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (lastUpdate + cooldown < Time.time)
+        if (lastUpdate + cooldown <= Time.time)
         {
             lastUpdate = Time.time;
             foreach (KeyValuePair<int, GameObject> obj in objectsToBeRewind)
@@ -50,6 +50,18 @@ public class GameManager : MonoBehaviour
         {
             objectsToBeRewind[obj.Key].transform.position = obj.Value.position;
             objectsToBeRewind[obj.Key].transform.rotation = obj.Value.rotation;
+        }
+        objectsInfos.Clear();
+        foreach (KeyValuePair<int, GameObject> obj in objectsToBeRewind)
+        {
+            if (!objectsInfos.ContainsKey(obj.Key))
+                objectsInfos.Add(obj.Key, new ObjectInfo(obj.Value.transform.position, obj.Value.transform.rotation));
+            else if (objectsInfos[obj.Key].lastUpdated + refreshRate <= Time.time)
+            {
+                objectsInfos[obj.Key].rotation = obj.Value.transform.rotation;
+                objectsInfos[obj.Key].position = obj.Value.transform.position;
+                objectsInfos[obj.Key].lastUpdated = Time.time;
+            }
         }
     }
 
