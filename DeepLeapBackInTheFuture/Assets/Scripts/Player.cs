@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Damageable
 {
     [SerializeField] private float shootingSpeed;
-
     void Start()
     {
         GameManager.instance.objectsToBeRewind.Add(1, gameObject);
@@ -32,7 +31,7 @@ public class Player : MonoBehaviour
             Vector3 vector = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
             vector.z = vector.y;
             vector.y = 0;
-            GameObject bullet = Instantiate(ResourcesManager.instance.Get("bulletPrefab"), transform.position, transform.rotation);
+            GameObject bullet = Instantiate(ResourcesManager.instance.Get("bulletPrefab"), transform.position + ((vector).normalized * 1.2f), transform.rotation);
             bullet.GetComponent<Rigidbody>().AddForce((vector).normalized * shootingSpeed, ForceMode.Impulse);
         }
     }
