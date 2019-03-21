@@ -4,7 +4,7 @@ public class Player : Damageable
 {
     [SerializeField] private float shootingSpeed;
 
-    private void Start()
+    new private void Start()
     {
         type = ObjectInfo.Type.PLAYER;
         base.Start();
