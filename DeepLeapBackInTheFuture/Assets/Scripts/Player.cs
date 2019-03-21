@@ -7,7 +7,7 @@ public class Player : Damageable
     private void Start()
     {
         type = ObjectInfo.Type.PLAYER;
-        register();
+        base.Start();
     }
 
     void Update()
@@ -16,8 +16,9 @@ public class Player : Damageable
         Shoot();
     }
 
-    private void OnDestroy()
+    new private void OnDestroy()
     {
+        base.OnDestroy();
         GameManager.instance.player = null;
     }
 
