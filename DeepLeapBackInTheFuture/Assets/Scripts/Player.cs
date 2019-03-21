@@ -26,13 +26,27 @@ public class Player : Damageable
     {
         Vector3 move = Vector3.zero;
 
-        move.x = Input.GetAxis("Horizontal") * Time.deltaTime * 8;
-        move.z = Input.GetAxis("Vertical") * Time.deltaTime * 8;
+        if (Input.GetKey(KeyCode.Z)) {
+            move.z += 1;
+        }
+        if (Input.GetKey(KeyCode.S)) {
+            move.z -= 1;
+        }
+        if (Input.GetKey(KeyCode.D)) {
+            move.x += 1;
+        }
+        if (Input.GetKey(KeyCode.Q)) {
+            move.x -= 1;
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
             GameManager.instance.rewind();
-
-        gameObject.transform.Translate(move);
+        
+        if (move != Vector3.zero) {
+            move = move.normalized * Time.deltaTime * 8;
+            gameObject.transform.Translate(move);
+            GameManager.instance.RecordPlayerInput(new GameManager.Key { isMove = true, movement = move } );
+        }
     }
 
     private void Shoot()
@@ -42,6 +56,7 @@ public class Player : Damageable
             Vector3 vector = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
             vector.z = vector.y;
             vector.y = 0;
+            GameManager.instance.RecordPlayerInput(new GameManager.Key { isMove = false, shootDirection = vector.normalized });
             GameObject bullet = Instantiate(ResourcesManager.instance.Get("bulletPrefab"), transform.position + ((vector).normalized * 1.2f), transform.rotation);
             bullet.GetComponent<Rigidbody>().AddForce((vector).normalized * shootingSpeed, ForceMode.Impulse);
         }

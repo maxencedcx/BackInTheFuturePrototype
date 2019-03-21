@@ -565,6 +565,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 3592063639434180830, guid: 5cd4a30e85fe5bf468f708323191933d,
     type: 3}
+  playerClonePrefab: {fileID: 2047013193603140020, guid: 6aed1baeba6b4564ba69560f2d297a21,
+    type: 3}
   enemyPrefab: {fileID: 4019894676340077537, guid: dd4fe4b8f21a3c342a06907440eb8bb9,
     type: 3}
   bulletPrefab: {fileID: 9133496050224155715, guid: 1360b481ab908fd43952465f7fb96d75,

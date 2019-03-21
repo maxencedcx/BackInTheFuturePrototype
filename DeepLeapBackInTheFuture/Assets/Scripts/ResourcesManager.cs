@@ -4,6 +4,7 @@ using UnityEngine;
 public class ResourcesManager : MonoBehaviour
 {
     public GameObject playerPrefab;
+    public GameObject playerClonePrefab;
     public GameObject enemyPrefab;
     public GameObject bulletPrefab;
 
@@ -20,6 +21,7 @@ public class ResourcesManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         objects = new Dictionary<string, GameObject>();
         objects.Add("playerPrefab", playerPrefab);
+        objects.Add("playerClonePrefab", playerClonePrefab);
         objects.Add("enemyPrefab", enemyPrefab);
         objects.Add("bulletPrefab", bulletPrefab);
     }
