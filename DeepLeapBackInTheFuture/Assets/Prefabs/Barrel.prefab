@@ -108,4 +108,4 @@ MonoBehaviour:
   maxHealth: 3
   radius: 5
   damage: 30
-  timer: 0.5
+  timer: 1
