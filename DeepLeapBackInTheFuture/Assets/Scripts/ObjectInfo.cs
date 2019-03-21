@@ -14,7 +14,7 @@ public class ObjectInfo
 
     public Vector3 position;
     public Quaternion rotation;
-    public float lastUpdated;
+    public float createdAt;
     public Type type;
 
     public ObjectInfo(Vector3 position, Quaternion rotation, Type type = Type.DEFAULT)
@@ -22,13 +22,13 @@ public class ObjectInfo
         this.position = position;
         this.rotation = rotation;
         this.type = type;
-        lastUpdated = Time.time;
+        createdAt = Time.time;
     }
 
     public void update(Vector3 position, Quaternion rotation)
     {
         this.position = position;
         this.rotation = rotation;
-        lastUpdated = Time.time;
+        createdAt = Time.time;
     }
 }

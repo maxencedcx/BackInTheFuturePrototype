@@ -10,30 +10,34 @@ public class ObjectToRewind : MonoBehaviour
     protected ObjectInfo.Type type = ObjectInfo.Type.DEFAULT;
     protected int id;
 
-    private void Start()
-    {
-        register();
-    }
-
-    protected void register()
+    protected void Start()
     {
         id = ++lastId;
         GameManager.instance.objectsToBeRewind.Add(id, manageInfos);
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
+        Debug.Log(type.ToString() + " DIED.");
         if (GameManager.instance.objectsToBeRewind.ContainsKey(id))
             GameManager.instance.objectsToBeRewind.Remove(id);
         if (GameManager.instance.objectsInfos.ContainsKey(id))
             GameManager.instance.objectsInfos.Remove(id);
     }
 
+    public void DestroyMe()
+    { Destroy(gameObject); }
+
     public void rewind(ObjectInfo infos)
     {
         Debug.Log("REWINDING " + type.ToString());
-        gameObject.transform.position = infos.position;
-        gameObject.transform.rotation = infos.rotation;
+        if (infos.createdAt + GameManager.instance.getRefreshRate() > Time.time + GameManager.instance.getCooldown())
+            Destroy(gameObject);
+        else
+        {
+            gameObject.transform.position = infos.position;
+            gameObject.transform.rotation = infos.rotation;
+        }
     }
 
     public ObjectInfo manageInfos(ObjectInfo infos = null)

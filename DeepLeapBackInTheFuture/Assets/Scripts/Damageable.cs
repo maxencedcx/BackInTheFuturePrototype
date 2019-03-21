@@ -14,16 +14,28 @@ public abstract class Damageable : ObjectToRewind
         }
     }
 
-    private void Awake() {
+    private void Awake()
+    {
         Health = maxHealth;
     }
 
-    public void GetDamage(int damage) {
+    public void GetDamage(int damage)
+    {
         if (damage > 0)
             Health -= damage;
     }
 
-    public void Die() {
-        Destroy(gameObject);
+    public void Die()
+    {
+        Debug.Log("DYING SOON");
+        gameObject.SetActive(false);
+        Invoke("DestroyMe", GameManager.instance.getRefreshRate());
+    }
+
+    public void DontDie()
+    {
+        Debug.Log("DENIED DYING SOON");
+        gameObject.SetActive(true);
+        CancelInvoke("DestroyMe");
     }
 }
