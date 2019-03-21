@@ -7,11 +7,11 @@ public class Enemy : Damageable
 
     [SerializeField] private int damage;
 
-    private void Start()
+    new private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         type = ObjectInfo.Type.ENEMY;
-        register();
+        base.Start();
     }
 
     private void Update()
