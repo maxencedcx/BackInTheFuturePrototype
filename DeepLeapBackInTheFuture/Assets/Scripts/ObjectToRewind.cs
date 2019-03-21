@@ -28,7 +28,7 @@ public class ObjectToRewind : MonoBehaviour
     public void DestroyMe()
     { Destroy(gameObject); }
 
-    public void rewind(ObjectInfo infos)
+    virtual public void rewind(ObjectInfo infos)
     {
         Debug.Log("REWINDING " + type.ToString());
         if (infos.createdAt + GameManager.instance.getRefreshRate() > Time.time + GameManager.instance.getCooldown())

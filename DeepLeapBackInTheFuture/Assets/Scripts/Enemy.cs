@@ -19,12 +19,6 @@ public class Enemy : Damageable
         agent.SetDestination(GameManager.instance.getPlayerPos());
     }
 
-    new public void rewind(ObjectInfo infos)
-    {
-        DontDie();
-        base.rewind(infos);
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))

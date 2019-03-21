@@ -25,6 +25,12 @@ public abstract class Damageable : ObjectToRewind
             Health -= damage;
     }
 
+    override public void rewind(ObjectInfo infos)
+    {
+        DontDie();
+        base.rewind(infos);
+    }
+
     public void Die()
     {
         Debug.Log("DYING SOON");
