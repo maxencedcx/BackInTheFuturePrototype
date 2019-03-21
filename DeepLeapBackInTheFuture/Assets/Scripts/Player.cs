@@ -6,6 +6,7 @@ public class Player : Damageable
 
     new private void Start()
     {
+        GameManager.instance.player = gameObject;
         type = ObjectInfo.Type.PLAYER;
         base.Start();
     }

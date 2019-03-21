@@ -15,6 +15,11 @@ public class PlayerClone : MonoBehaviour {
         }
     }
 
+    private void OnDestroy()
+    {
+        GameManager.instance.playerClone = null;
+    }
+
     private void Move(GameManager.Key key) {
         gameObject.transform.Translate(key.movement);
     }

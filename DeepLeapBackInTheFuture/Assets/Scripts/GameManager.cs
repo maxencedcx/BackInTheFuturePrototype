@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public Dictionary<int, infosHandler> objectsToBeRewind;
     public Dictionary<int, List<ObjectInfo>> objectsInfos; 
-    public GameObject player;
+    public GameObject player = null;
+    public GameObject playerClone = null;
 
     public struct Key {
         public bool isMove;
@@ -60,10 +61,10 @@ public class GameManager : MonoBehaviour
         removeOldInfos();
         foreach (KeyValuePair<int, List<ObjectInfo>> obj in objectsInfos) {
             if (obj.Value.FirstOrDefault().type == ObjectInfo.Type.PLAYER) {
-                GameObject clone = Instantiate(ResourcesManager.instance.Get("playerClonePrefab"), obj.Value.FirstOrDefault().position, obj.Value.FirstOrDefault().rotation);
-                clone.GetComponent<PlayerClone>().playerInputs = playerInputs;
+                playerClone = Instantiate(ResourcesManager.instance.Get("playerClonePrefab"), obj.Value.FirstOrDefault().position, obj.Value.FirstOrDefault().rotation);
+                playerClone.GetComponent<PlayerClone>().playerInputs = playerInputs;
                 playerInputs = new Queue<KeyValuePair<float, Key>>();
-                Destroy(clone, refreshRate);
+                Destroy(playerClone, refreshRate);
             } else {
                 objectsToBeRewind[obj.Key](obj.Value.FirstOrDefault());
             }
@@ -86,7 +87,9 @@ public class GameManager : MonoBehaviour
 
     public Vector3 getPlayerPos()
     {
-        if (player != null)
+        if (playerClone != null)
+            return playerClone.transform.position;
+        else if (player != null)
             return player.transform.position;
         else
             return Vector3.zero;
