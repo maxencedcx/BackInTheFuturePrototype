@@ -2,10 +2,10 @@
 
 public abstract class Damageable : ObjectToRewind
 {
-    [SerializeField] private int maxHealth;
+    [SerializeField] protected int maxHealth;
 
-    private int _health;
-    private int Health {
+    protected int _health;
+    virtual protected int Health {
         get { return _health; }
         set {
             _health = Mathf.Clamp(value, 0, maxHealth);
@@ -31,7 +31,7 @@ public abstract class Damageable : ObjectToRewind
         base.rewind(infos);
     }
 
-    public void Die()
+    virtual public void Die()
     {
         Debug.Log("DYING SOON");
         gameObject.SetActive(false);

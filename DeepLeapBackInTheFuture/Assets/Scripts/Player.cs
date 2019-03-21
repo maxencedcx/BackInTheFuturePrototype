@@ -56,7 +56,7 @@ public class Player : Damageable
             Vector3 vector = Input.mousePosition - Camera.main.WorldToScreenPoint(transform.position);
             vector.z = vector.y;
             vector.y = 0;
-            GameManager.instance.RecordPlayerInput(new GameManager.Key { isMove = false, shootDirection = vector.normalized });
+            GameManager.instance.RecordPlayerInput(new GameManager.Key { isMove = false, mousePos = Input.mousePosition });
             GameObject bullet = Instantiate(ResourcesManager.instance.Get("bulletPrefab"), transform.position + ((vector).normalized * 1.2f), transform.rotation);
             bullet.GetComponent<Rigidbody>().AddForce((vector).normalized * shootingSpeed, ForceMode.Impulse);
         }

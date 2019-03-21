@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     public struct Key {
         public bool isMove;
-        public Vector3 shootDirection;
+        public Vector3 mousePos;
         public Vector3 movement;
     }
 
